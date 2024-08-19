@@ -1,0 +1,28 @@
+class Solution {
+    public static boolean isConcatenated(String s,Set<String> h,Map<String,Boolean> map){
+        if(map.containsKey(s))
+            return map.get(s);
+        for(int i=1;i<=s.length();i++){
+            String prefix=s.substring(0,i);
+            String suffix=s.substring(i);
+            if(h.contains(prefix) && (h.contains(suffix) || isConcatenated(suffix,h,map))){
+                map.put(s,true);
+                return true;
+            }
+        }
+        map.put(s,false);
+        return false;
+    }
+    public List<String> findAllConcatenatedWordsInADict(String[] w) {
+      int n=w.length;
+      List<String> list=new ArrayList<>();      
+      Set<String> h=new HashSet<>(Arrays.asList(w));
+      Map<String,Boolean> map=new HashMap<>();
+      for(String s:w){
+          if(isConcatenated(s,h,map))
+              list.add(s);
+      }
+      return list;
+            
+    }
+}
